@@ -1,0 +1,84 @@
+.title {
+  text-align: center;
+  margin-bottom: 30px !important;
+  color: #7c4dff !important;
+  font-weight: 700 !important;
+  font-size: 2rem !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #7c4dff, #b388ff);
+    border-radius: 2px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  :global(.MuiTextField-root) {
+    .MuiOutlinedInput-root {
+      &:hover fieldset {
+        border-color: #9575cd;
+      }
+      &.Mui-focused fieldset {
+        border-color: #7c4dff;
+      }
+    }
+
+    .MuiInputLabel-root.Mui-focused {
+      color: #7c4dff;
+    }
+  }
+}
+
+.submitButton {
+  margin-top: 25px !important;
+  height: 50px;
+  background: linear-gradient(45deg, #7c4dff 30%, #b388ff 90%) !important;
+  border-radius: 25px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 20px rgba(124, 77, 255, 0.3) !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background: linear-gradient(45deg, #6c3fff 30%, #9c70ff 90%) !important;
+    box-shadow: 0 6px 25px rgba(124, 77, 255, 0.4) !important;
+    transform: translateY(-2px);
+  }
+}
+
+.switchText {
+  margin-top: 20px !important;
+  text-align: center;
+  color: #9575cd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500 !important;
+
+  &:hover {
+    color: #7c4dff;
+    transform: translateY(-1px);
+  }
+}
+
+.error {
+  text-align: center;
+  margin-top: 10px !important;
+  padding: 8px !important;
+  background-color: rgba(211, 47, 47, 0.1);
+  border-radius: 8px;
+  font-size: 0.9rem !important;
+}

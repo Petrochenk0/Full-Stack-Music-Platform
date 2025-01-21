@@ -4,15 +4,12 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { Order } from './order.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -64,38 +61,6 @@ export class UsersService {
   private generateToken(username: string): Promise<string> {
     const payload = { username };
     return this.jwtService.signAsync(payload);
-  }
-
-  async addOrder(
-    username: string,
-    items: { name: string; price: number; quantity: number }[],
-    total: number,
-  ): Promise<Order> {
-    const user = await this.userRepository.findOne({ where: { username } });
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    const order = this.orderRepository.create({
-      user,
-      items,
-      total,
-      createdAt: new Date(),
-    });
-    await this.orderRepository.save(order);
-    return order;
-  }
-
-  // Метод для получения истории заказов
-  async getOrderHistory(username: string): Promise<Order[]> {
-    const user = await this.userRepository.findOne({
-      where: { username },
-      relations: ['orders'],
-    });
-    if (!user) {
-      throw new Error('User not found');
-    }
-    return user.orders;
   }
 
   async getUserProfile(username: string) {

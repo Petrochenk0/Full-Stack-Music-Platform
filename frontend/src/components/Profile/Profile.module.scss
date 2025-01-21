@@ -1,0 +1,76 @@
+.profileContainer {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(124, 77, 255, 0.1);
+}
+
+.userInfo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.username {
+  color: #7c4dff !important;
+  font-weight: 700 !important;
+  margin-bottom: 10px !important;
+}
+
+.email {
+  color: #666 !important;
+  margin-bottom: 20px !important;
+}
+
+.logoutButton {
+  color: #ff4081 !important;
+  border-color: #ff4081 !important;
+
+  &:hover {
+    background: rgba(255, 64, 129, 0.1) !important;
+  }
+}
+
+.divider {
+  margin: 30px 0 !important;
+  background-color: rgba(124, 77, 255, 0.2) !important;
+}
+
+.musicSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.section {
+  background: rgba(124, 77, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(124, 77, 255, 0.1);
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #7c4dff;
+
+  .icon {
+    font-size: 24px !important;
+  }
+}
+
+.tracksList,
+.playlistsList {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

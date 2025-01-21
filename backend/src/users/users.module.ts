@@ -6,13 +6,13 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { JwtStrategy } from './jwt.strategy';
 import { User } from './user.entity';
-import { Order } from './order.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+// import { JwtAuthModule } from '../auth/jwt.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
-    TypeOrmModule.forFeature([User, Order]),
+    TypeOrmModule.forFeature([User]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],

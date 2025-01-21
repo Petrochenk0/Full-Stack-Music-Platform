@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Order } from './order.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('users') // Указываем имя таблицы
 export class User {
@@ -14,7 +13,4 @@ export class User {
 
   @Column() // Храним захэшированный пароль
   password: string;
-
-  @OneToMany(() => Order, (order) => order.user) // Связь с заказами
-  orders: Order[];
 }
