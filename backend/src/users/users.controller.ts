@@ -20,6 +20,7 @@ export class UsersController {
     @Body('password') password: string,
     @Body('confirmPassword') confirmPassword: string,
   ) {
+    console.log('Register request received:', { username, email });
     return this.usersService.register(
       username,
       email,
@@ -34,24 +35,6 @@ export class UsersController {
     @Body('password') password: string,
   ) {
     return this.usersService.login(username, password);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('order')
-  async addOrder(
-    @Request() req,
-    @Body('items') items: { name: string; price: number; quantity: number }[],
-    @Body('total') total: number,
-  ) {
-    const username = req.user.username;
-    return this.usersService.addOrder(username, items, total);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('order-history')
-  async getOrderHistory(@Request() req) {
-    const username = req.user.username;
-    return this.usersService.getOrderHistory(username);
   }
 
   @UseGuards(JwtAuthGuard)
