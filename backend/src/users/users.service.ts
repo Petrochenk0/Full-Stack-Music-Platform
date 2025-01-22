@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Favorite } from './favorite.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Favorite)
+    private readonly favoriteRepository: Repository<Favorite>,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -72,5 +75,64 @@ export class UsersService {
       username: user.username,
       email: user.email,
     };
+  }
+
+  async addToFavorites(username: string, trackData: any) {
+    const user = await this.userRepository.findOne({ where: { username } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const existingFavorite = await this.favoriteRepository.findOne({
+      where: { user: { id: user.id }, trackId: trackData.id.toString() },
+    });
+
+    if (existingFavorite) {
+      throw new Error('Track already in favorites');
+    }
+
+    const favorite = this.favoriteRepository.create({
+      trackId: trackData.id.toString(),
+      title: trackData.title,
+      artists: trackData.artists,
+      duration: trackData.duration,
+      src: trackData.src,
+      preview: trackData.preview,
+      user,
+    });
+
+    await this.favoriteRepository.save(favorite);
+    return favorite;
+  }
+
+  async removeFromFavorites(username: string, trackId: string) {
+    const user = await this.userRepository.findOne({ where: { username } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const favorite = await this.favoriteRepository.findOne({
+      where: { user: { id: user.id }, trackId: trackId.toString() },
+    });
+
+    if (!favorite) {
+      throw new Error('Track not found in favorites');
+    }
+
+    await this.favoriteRepository.remove(favorite);
+    return { message: 'Track removed from favorites' };
+  }
+
+  async getFavorites(username: string) {
+    const user = await this.userRepository.findOne({
+      where: { username },
+      relations: ['favorites'],
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user.favorites;
   }
 }
