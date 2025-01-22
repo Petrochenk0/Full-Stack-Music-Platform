@@ -4,12 +4,16 @@ import styles from './global.module.scss';
 import ContextProviderForAudio from './Context/Context';
 import ControlPanel from './components/ControlPanel/ControlPanel';
 import AuthModal from './components/AuthModal/AuthModal';
-import Profile from './components/Profile/Profile';
 import { Button } from '@mui/material';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
+import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
+import PlaylistsPage from './pages/PlaylistsPage/PlaylistsPage';
 
-const App = () => {
+type Page = 'main' | 'profile' | 'favorites' | 'playlists';
+
+const App: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<Page>('main');
   const [user, setUser] = useState<{ username: string; email: string } | null>(null);
 
   useEffect(() => {
@@ -35,7 +39,36 @@ const App = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setUser(null);
-    setIsProfileOpen(false);
+    setCurrentPage('main');
+  };
+
+  const handleNavigate = (page: Page) => {
+    setCurrentPage(page);
+  };
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'profile':
+        return user ? (
+          <ProfilePage
+            username={user.username}
+            email={user.email}
+            onLogout={handleLogout}
+            onNavigate={(page) => handleNavigate(page)}
+          />
+        ) : null;
+      case 'favorites':
+        return <FavoritesPage onBack={() => handleNavigate('profile')} />;
+      case 'playlists':
+        return <PlaylistsPage onBack={() => handleNavigate('profile')} />;
+      default:
+        return (
+          <>
+            <Main />
+            <ControlPanel />
+          </>
+        );
+    }
   };
 
   return (
@@ -43,9 +76,9 @@ const App = () => {
       <div className={styles.header}>
         {user ? (
           <Button
-            variant="text"
-            className={styles.userButton}
-            onClick={() => setIsProfileOpen(!isProfileOpen)}>
+            variant="contained"
+            className={styles.signUpButton}
+            onClick={() => handleNavigate('profile')}>
             {user.username}
           </Button>
         ) : (
@@ -57,12 +90,8 @@ const App = () => {
           </Button>
         )}
       </div>
-      <Main />
-      <ControlPanel />
+      {renderPage()}
       <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      {isProfileOpen && user && (
-        <Profile username={user.username} email={user.email} onLogout={handleLogout} />
-      )}
     </div>
   );
 };

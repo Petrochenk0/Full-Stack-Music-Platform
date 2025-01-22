@@ -5,6 +5,8 @@ import {
   Get,
   UseGuards,
   Request,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -42,5 +44,23 @@ export class UsersController {
   async getUserProfile(@Request() req) {
     const username = req.user.username;
     return this.usersService.getUserProfile(username);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('favorites')
+  async addToFavorites(@Request() req, @Body() trackData: any) {
+    return this.usersService.addToFavorites(req.user.username, trackData);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('favorites/:trackId')
+  async removeFromFavorites(@Request() req, @Param('trackId') trackId: string) {
+    return this.usersService.removeFromFavorites(req.user.username, trackId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('favorites')
+  async getFavorites(@Request() req) {
+    return this.usersService.getFavorites(req.user.username);
   }
 }

@@ -1,16 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Favorite } from './favorite.entity';
 
 @Entity('users') // Указываем имя таблицы
 export class User {
-  @PrimaryGeneratedColumn() // ID генерируется автоматически
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true }) // Логин должен быть уникальным
+  @Column({ unique: true })
   username: string;
 
   @Column({ unique: true, nullable: true, default: '' })
   email: string;
 
-  @Column() // Храним захэшированный пароль
+  @Column()
   password: string;
+
+  @OneToMany(() => Favorite, (favorite) => favorite.user)
+  favorites: Favorite[];
 }
