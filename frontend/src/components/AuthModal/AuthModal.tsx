@@ -66,11 +66,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: '90%',
+    maxWidth: '400px',
     bgcolor: 'background.paper',
     borderRadius: '20px',
     boxShadow: '0 8px 32px rgba(124, 77, 255, 0.2)',
-    p: 4,
+    p: { xs: 2, sm: 4 },
     outline: 'none',
   };
 

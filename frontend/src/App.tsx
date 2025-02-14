@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Main from './pages/Main';
-import styles from './global.module.scss';
 import ContextProviderForAudio from './Context/Context';
 import ControlPanel from './components/ControlPanel/ControlPanel';
 import AuthModal from './components/AuthModal/AuthModal';
@@ -8,6 +7,8 @@ import { Button } from '@mui/material';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 import PlaylistsPage from './pages/PlaylistsPage/PlaylistsPage';
+
+import styles from './global.module.scss';
 
 type Page = 'main' | 'profile' | 'favorites' | 'playlists';
 

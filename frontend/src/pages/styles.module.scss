@@ -1,10 +1,14 @@
 .search {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .input {
   width: 300px;
-  margin: 10px 150px;
+  margin: 10px 0;
 
   & > * {
     text-align: center !important;
@@ -12,9 +16,20 @@
     padding: 14px;
     font-size: 18px !important;
   }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    max-width: 300px;
+
+    & > * {
+      padding: 10px;
+      font-size: 16px !important;
+    }
+  }
 }
 
 .list {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -25,4 +40,17 @@
   padding: 15px;
   border: 1px solid #eee;
   border-radius: 20px;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+    padding: 10px;
+    margin: 5px 0;
+    max-height: calc(100vh - 180px);
+  }
+
+  @media (max-width: 480px) {
+    gap: 12px;
+    padding: 8px;
+    border-radius: 15px;
+  }
 }
