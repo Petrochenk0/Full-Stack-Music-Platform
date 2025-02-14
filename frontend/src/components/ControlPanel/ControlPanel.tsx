@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { RootContextAudio } from '../../Context/Context';
-import styles from './styles.module.scss';
 import { Slider, IconButton } from '@mui/material';
 import { PlayArrow, Pause } from '@mui/icons-material';
 import convertSecondToMM from '../../utils/convertSecondToMM';
+
+import styles from './styles.module.scss';
 
 const TimeControl: React.FC = () => {
   console.log('Time control rerender');
@@ -15,21 +16,21 @@ const TimeControl: React.FC = () => {
 
   const finnalyFilteredCurrentTimeWithSecondForSlider: string = convertSecondToMM(currentTime);
 
-  const changeAudioSlider = (event: Event, value: number | number[], activeThumb: number) => {
-    const timeAudioInSeconds: number = Math.round(((value as number) / 100) * duration);
+  const changeAudioSlider = (event: Event, value: number | number[]) => {
+    const timeAudioInSeconds = Math.round(((value as number) / 100) * duration);
     setCurrentTime(timeAudioInSeconds);
-    if (audioTracks) {
+    if (audioTracks instanceof HTMLAudioElement) {
       audioTracks.currentTime = timeAudioInSeconds;
     }
   };
 
   useEffect(() => {
     const addIntervalOfOneSecond = setInterval(() => {
-      setCurrentTime(audioTracks?.currentTime || 0);
+      if (audioTracks instanceof HTMLAudioElement) {
+        setCurrentTime(audioTracks.currentTime || 0);
+      }
     }, 1000);
-    return () => {
-      clearInterval(addIntervalOfOneSecond);
-    };
+    return () => clearInterval(addIntervalOfOneSecond);
   }, [audioTracks]);
 
   return (
